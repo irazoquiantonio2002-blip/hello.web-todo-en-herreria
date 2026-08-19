@@ -489,6 +489,93 @@ footer{position:relative;background:var(--black);color:var(--gray-300);padding:8
   .gallery-grid{grid-template-columns:1fr}
 }
 
+/* ===== Premium touches ===== */
+::selection{background:var(--gold);color:var(--black)}
+html{scrollbar-color:var(--gold-dark) var(--black-2);scrollbar-width:thin}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--black-2)}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--gold-dark),var(--gold));border-radius:10px;border:2px solid var(--black-2)}
+::-webkit-scrollbar-thumb:hover{background:var(--gold-light)}
+
+body::before{
+  content:'';position:fixed;inset:0;z-index:2;pointer-events:none;
+  opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Hero cursor spotlight */
+.hero-spotlight{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,30%), rgba(198,161,91,.16), transparent 70%);
+  opacity:0;transition:opacity .5s ease;
+}
+#hero:hover .hero-spotlight{opacity:1}
+
+/* Tilt-ready cards */
+.svc-card{
+  --rx:0deg;--ry:0deg;
+  transform:perspective(900px) rotateX(var(--ry)) rotateY(var(--rx)) translateY(0);
+  transition:transform .25s ease-out, box-shadow .4s ease, border-color .4s ease;
+}
+.svc-card:hover{transform:perspective(900px) rotateX(var(--ry)) rotateY(var(--rx)) translateY(-8px);box-shadow:0 26px 50px rgba(0,0,0,.1);border-color:transparent}
+.why-card{
+  --rx:0deg;--ry:0deg;
+  transform:perspective(900px) rotateX(var(--ry)) rotateY(var(--rx)) translateY(0);
+  transition:transform .25s ease-out, border-color .4s ease, background .4s ease;
+}
+.why-card:hover{transform:perspective(900px) rotateX(var(--ry)) rotateY(var(--rx)) translateY(-6px);border-color:rgba(198,161,91,.4);background:rgba(198,161,91,.06)}
+
+/* Button shine sweep */
+.btn-primary,.btn-submit{position:relative;overflow:hidden}
+.btn-primary::before,.btn-submit::before{
+  content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;
+  background:linear-gradient(115deg,transparent,rgba(255,255,255,.35),transparent);
+  transform:skewX(-20deg);transition:left .65s ease;pointer-events:none;
+}
+.btn-primary:hover::before,.btn-submit:hover::before{left:120%}
+
+/* Gallery lightbox */
+.gal-card{cursor:zoom-in}
+.lightbox{
+  position:fixed;inset:0;z-index:950;display:flex;align-items:center;justify-content:center;
+  background:rgba(6,6,7,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  opacity:0;pointer-events:none;transition:opacity .35s ease;padding:40px;
+}
+.lightbox.open{opacity:1;pointer-events:auto}
+.lb-figure{max-width:min(900px,90vw);text-align:center}
+.lb-figure img{
+  max-width:100%;max-height:76vh;border-radius:14px;object-fit:contain;
+  box-shadow:0 30px 80px rgba(0,0,0,.5);border:1px solid rgba(198,161,91,.25);
+  opacity:0;transform:scale(.96);transition:opacity .35s ease,transform .35s ease;
+}
+.lightbox.open .lb-figure img{opacity:1;transform:scale(1)}
+.lb-figure figcaption{margin-top:18px;color:var(--gold-light);font-size:14px;letter-spacing:.02em}
+.lb-close,.lb-prev,.lb-next{
+  position:fixed;width:46px;height:46px;border-radius:50%;
+  background:rgba(255,255,255,.06);border:1px solid rgba(198,161,91,.3);color:var(--white);
+  display:flex;align-items:center;justify-content:center;transition:background .3s ease,transform .3s ease,border-color .3s ease;
+}
+.lb-close:hover,.lb-prev:hover,.lb-next:hover{background:var(--gold);color:var(--black);border-color:var(--gold)}
+.lb-close{top:26px;right:26px}
+.lb-prev{left:26px;top:50%;transform:translateY(-50%)}
+.lb-next{right:26px;top:50%;transform:translateY(-50%)}
+.lb-prev:hover,.lb-next:hover{transform:translateY(-50%) scale(1.08)}
+
+/* Back to top with progress ring */
+.fab-top{opacity:0;transform:translateY(10px) scale(.9);pointer-events:none;transition:opacity .3s ease,transform .3s ease}
+.fab-top.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.top-btn{position:relative;background:var(--black)}
+.top-btn svg:last-child{position:relative;z-index:2;color:var(--gold-light)}
+.top-ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.top-ring-bg{fill:none;stroke:rgba(255,255,255,.14);stroke-width:2}
+.top-ring-fg{fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round;stroke-dasharray:150.8;stroke-dashoffset:150.8;transition:stroke-dashoffset .1s linear}
+
+@media (max-width:680px){
+  .lb-prev{left:10px}
+  .lb-next{right:10px}
+  .lb-close{top:14px;right:14px}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
