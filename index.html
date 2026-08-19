@@ -113,6 +113,7 @@
   <div class="hero-bg parallax-img" style="background-image:url('imagenes/puerta-decorativa-forja-dorada.jpeg')" aria-hidden="true"></div>
   <div class="hero-ov" aria-hidden="true"></div>
   <canvas id="pcanvas" class="particle-canvas" aria-hidden="true"></canvas>
+  <div class="hero-spotlight" aria-hidden="true"></div>
 
   <div class="hero-body">
     <div class="wrap">
@@ -630,8 +631,35 @@
   </div>
 </footer>
 
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <button class="lb-close" id="lbClose" aria-label="Cerrar">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+  <button class="lb-prev" id="lbPrev" aria-label="Anterior">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="lb-next" id="lbNext" aria-label="Siguiente">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <figure class="lb-figure">
+    <img id="lbImg" src="" alt="">
+    <figcaption id="lbCaption"></figcaption>
+  </figure>
+</div>
+
 <!-- FLOATING ACTION BUTTONS -->
 <div class="fab-stack">
+  <div class="fab-item fab-top" id="fabTop">
+    <span class="fab-tip">Volver arriba</span>
+    <button class="fab-btn top-btn" aria-label="Volver arriba">
+      <svg class="top-ring" viewBox="0 0 56 56" aria-hidden="true">
+        <circle cx="28" cy="28" r="24" class="top-ring-bg"/>
+        <circle cx="28" cy="28" r="24" class="top-ring-fg" id="topRingFg"/>
+      </svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+  </div>
   <div class="fab-item">
     <span class="fab-tip">Síguenos en Facebook</span>
     <a href="https://www.facebook.com/search/pages/?q=TH%20HERRERIA"

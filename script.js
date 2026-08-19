@@ -208,6 +208,89 @@
   initParticles(document.getElementById('pcanvasWhy'), { count: 34 });
   initParticles(document.getElementById('pcanvasGaleria'), { count: 34 });
 
+  /* ---------- Hero cursor spotlight ---------- */
+  const hero = document.getElementById('hero');
+  if (hero){
+    hero.addEventListener('pointermove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      hero.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width * 100) + '%');
+      hero.style.setProperty('--my', ((e.clientY - rect.top) / rect.height * 100) + '%');
+    });
+  }
+
+  /* ---------- Card tilt ---------- */
+  function initTilt(selector, intensity){
+    document.querySelectorAll(selector).forEach(card => {
+      card.addEventListener('pointermove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.setProperty('--rx', (px * intensity) + 'deg');
+        card.style.setProperty('--ry', (-py * intensity) + 'deg');
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+      });
+    });
+  }
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches){
+    initTilt('.svc-card', 6);
+    initTilt('.why-card', 4);
+  }
+
+  /* ---------- Gallery lightbox ---------- */
+  const galCards = Array.from(document.querySelectorAll('.gal-card'));
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbCaption = document.getElementById('lbCaption');
+  if (lightbox && lbImg && galCards.length){
+    let lbIndex = 0;
+    function openLightbox(i){
+      lbIndex = (i + galCards.length) % galCards.length;
+      const card = galCards[lbIndex];
+      const img = card.querySelector('img');
+      const cap = card.querySelector('figcaption');
+      lbImg.src = img.src;
+      lbImg.alt = img.alt || '';
+      lbCaption.textContent = cap ? cap.textContent : '';
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('no-scroll');
+    }
+    function closeLightbox(){
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('no-scroll');
+    }
+    galCards.forEach((card, i) => card.addEventListener('click', () => openLightbox(i)));
+    document.getElementById('lbClose')?.addEventListener('click', closeLightbox);
+    document.getElementById('lbPrev')?.addEventListener('click', () => openLightbox(lbIndex - 1));
+    document.getElementById('lbNext')?.addEventListener('click', () => openLightbox(lbIndex + 1));
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') openLightbox(lbIndex + 1);
+      if (e.key === 'ArrowLeft') openLightbox(lbIndex - 1);
+    });
+  }
+
+  /* ---------- Back to top ---------- */
+  const fabTop = document.getElementById('fabTop');
+  const topRingFg = document.getElementById('topRingFg');
+  const TOP_CIRC = 2 * Math.PI * 24;
+  function updateTopProgress(){
+    const scrollTop = window.scrollY;
+    const height = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = height > 0 ? scrollTop / height : 0;
+    if (topRingFg) topRingFg.style.strokeDashoffset = String(TOP_CIRC * (1 - progress));
+    if (fabTop) fabTop.classList.toggle('show', scrollTop > 500);
+  }
+  window.addEventListener('scroll', updateTopProgress, { passive: true });
+  updateTopProgress();
+  fabTop?.querySelector('.top-btn').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
   /* ---------- Contact form -> WhatsApp ---------- */
   const WA_NUMBER = '524772917349';
   const form = document.getElementById('cForm');
